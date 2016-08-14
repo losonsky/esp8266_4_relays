@@ -1,4 +1,4 @@
-print("I: version 0.992")
+print("I: version 0.993")
 relaycount = 4
 relaypin = {8, 4, 3, 2}
 relaystat = {"OFF", "OFF", "OFF", "OFF"}
@@ -16,6 +16,8 @@ if file.open("index.cfg", "r") then
   end
  end
  file.close()
+else
+ print("I: file index.cfg doesn't exist")
 end
 
 if file.open("relays.cfg", "r") then
@@ -28,6 +30,8 @@ if file.open("relays.cfg", "r") then
   end
  end
  file.close()
+else
+ print("I: file relays.cfg doesn't exist")
 end
 
 gpio.mode(0, gpio.OUTPUT)
@@ -51,7 +55,7 @@ for i = 1, relaycount do
  end
 end
 
-wifi.setmode(wifi.STATIONAP)
+wifi.setmode(wifi.SOFTAP)
 cfgapwifi = {ssid = "relayboard", pwd = "relayboard"}
 wifi.ap.config(cfgapwifi)
 cfgapip = {ip="192.168.55.1", netmask="255.255.255.0", gateway="192.168.55.1"}
@@ -78,6 +82,7 @@ function connectSTA()
    cfgstapwd = string.gsub(cfgstapwd, "\r", "")
    cfgstapwd = string.gsub(cfgstapwd, "\n", "")
    print("I: STA attempting to configure ssid = \""..cfgstassid.."\" and pwd = \""..cfgstapwd.."\"")
+   wifi.setmode(wifi.STATIONAP)
    wifi.sta.config(cfgstassid, cfgstapwd)
    counter = 0
    tmr.alarm(1, 1000, 1, function() 
@@ -100,6 +105,8 @@ function connectSTA()
     end
    end)
   end
+ else
+  print("I: file sta.cfg doesn't exist")
  end
 end
 
@@ -183,11 +190,11 @@ srv:listen(80, function(c)
    end
 
    local function writeFile(filename, array)
-    print("I: opening file "..filename)
     file.open(filename, "w+")
     for i = 1, relaycount do
      file.writeline(array[i])
     end
+    print("I: closing file "..filename)
     file.close()
    end
 
@@ -204,8 +211,7 @@ srv:listen(80, function(c)
    end
 
    if (_GET.cfgstassid ~= nil) then
-    file.remove("sta.cfg")
-    file.open("sta.cfg", "w")
+    file.open("sta.cfg", "w+")
     file.writeline(urldecode(_GET.cfgstassid))
     if (_GET.cfgstapwd ~= nil) then
      file.writeline(urldecode(_GET.cfgstapwd))
