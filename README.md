@@ -4,5 +4,5 @@ Default AP is always running 120 seconds after power restore.<br>
 You can always securely connect during this time and setup your board using the following info:<br>
 ssid: relayboard<br>
 pwd: relayboard<br>
-IP: 192.168.55.1
-
+IP: 192.168.55.1<br>
+Your primary configuration URL in this case should be http://192.168.55.1/sta.html<br>
