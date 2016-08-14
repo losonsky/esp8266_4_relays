@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <title>ESP8266 STA</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+ </head>
+ <body style="background: #AFAFAF; font-size: 24px; text-align: left;">
+  <a href="/">Home</a>
+  <font style="color: #7F7F7F">STA</font>
+  <a href="relays.html">Relays</a><br>
+  Leave the password field empty if connecting to open WiFi AP.<br>
+  You can access relay board via local IP:
+  <div id="cfgaccessip"></div>
+  <form style="background: #9F9F9F; font-size: 22px; text-align: left;">
+   STA ssid:<br>
+   <input type="text" name="cfgstassid" id="cfgstassid"><br>
+   STA pwd:<br>
+   <input type="password" name="cfgstapwd" id="cfgstapwd"><br>
+   <input type="button" value="Save" onclick="AjaxSUBMIT()" id="submit">
+  </form>
+  <script type="text/javascript" src="sta.js"></script>
+ </body> 
+</html>
